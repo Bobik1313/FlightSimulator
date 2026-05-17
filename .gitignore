@@ -119,8 +119,11 @@ x86/
 
 # NuGet
 *.nupkg
-**/[Pp]ackages/*
-!**/[Pp]ackages/build/
+**/packages/*
+!**/packages/build/
+!/Packages/
+!/Packages/manifest.json
+!/Packages/packages-lock.json
 *.nuget.props
 *.nuget.targets
 
