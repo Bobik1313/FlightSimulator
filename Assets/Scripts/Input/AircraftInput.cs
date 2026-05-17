@@ -42,7 +42,7 @@ namespace Assets.Scripts
         {
             Move = _input.Player.Move.ReadValue<Vector2>();
 
-            Yaw = _input.Player.Yaw.ReadValue<float>();
+            Yaw = -_input.Player.Yaw.ReadValue<float>();
 
             float throttleUp =
                 _input.Player.ThrottleUp.ReadValue<float>();

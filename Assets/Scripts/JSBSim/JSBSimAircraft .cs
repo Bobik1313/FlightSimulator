@@ -47,5 +47,16 @@ namespace Assets.Scripts.JSBSim
         {
             return JSBSimNative.JSB_GetProperty(property);
         }
+
+        public void SetControls(double pitch, double roll, double yaw, double throttle)
+        {
+            if (!IsLoaded)
+                return;
+
+            JSBSimNative.JSB_SetProperty("fcs/elevator-cmd-norm", pitch);
+            JSBSimNative.JSB_SetProperty("fcs/aileron-cmd-norm", roll);
+            JSBSimNative.JSB_SetProperty("fcs/rudder-cmd-norm", yaw);
+            JSBSimNative.JSB_SetProperty("fcs/throttle-cmd-norm", throttle);
+        }
     }
 }
