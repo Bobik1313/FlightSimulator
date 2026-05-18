@@ -35,10 +35,11 @@ public class JSBSimTestRunner : MonoBehaviour
         if (!_aircraft.LoadScript(scriptPath))
             return;
 
-        _aircraft.SetProperty("ic/phi-deg", 0);      // roll
-        _aircraft.SetProperty("ic/theta-deg", 0);    // pitch
-        _aircraft.SetProperty("ic/psi-true-deg", 0); // yaw
-        _aircraft.SetProperty("ic/p-rad_sec", 0);    // roll rate
+        // Preparation
+        _aircraft.SetProperty("ic/phi-deg", 0);
+        _aircraft.SetProperty("ic/theta-deg", 0);
+        _aircraft.SetProperty("ic/psi-true-deg", 0);
+        _aircraft.SetProperty("ic/p-rad_sec", 0); 
         _aircraft.SetProperty("ic/q-rad_sec", 0);
         _aircraft.SetProperty("ic/r-rad_sec", 0);
 
@@ -90,14 +91,6 @@ public class JSBSimTestRunner : MonoBehaviour
                 rollDeg,
                 headingDeg);
         }
-
-        Debug.Log(
-            $"Roll: {_aircraft.GetProperty("attitude/phi-deg")}, " +
-            $"AilCmd: {_aircraft.GetProperty("fcs/aileron-cmd-norm")}, " +
-            $"RudCmd: {_aircraft.GetProperty("fcs/rudder-cmd-norm")}, " +
-            $"AilTrim: {_aircraft.GetProperty("fcs/aileron-trim-cmd-norm")}, " +
-            $"RudTrim: {_aircraft.GetProperty("fcs/rudder-trim-cmd-norm")}"
-        );
     }
 
     private void ApplyRotation(double rollRad, double pitchRad, double headingRad)

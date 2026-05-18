@@ -31,16 +31,6 @@ namespace Assets.Scripts.JSBSim
 
             if (!result)
                 Debug.LogError(JSBSimNative.GetLastError());
-            else
-            {
-                Debug.Log("After IC Alt: " + JSBSimNative.JSB_GetProperty("position/h-sl-ft"));
-                Debug.Log("After IC VC: " + JSBSimNative.JSB_GetProperty("velocities/vc-kts"));
-                Debug.Log("After IC Pitch: " + JSBSimNative.JSB_GetProperty("attitude/theta-rad"));
-
-                Debug.Log("After IC RPM: " + JSBSimNative.JSB_GetProperty("propulsion/engine[0]/rpm"));
-                Debug.Log("After IC Throttle: " + JSBSimNative.JSB_GetProperty("fcs/throttle-cmd-norm"));
-                Debug.Log("After IC Mixture: " + JSBSimNative.JSB_GetProperty("fcs/mixture-cmd-norm"));
-            }
         }
 
         public void Tick()
