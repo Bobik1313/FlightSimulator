@@ -10,6 +10,7 @@ namespace Assets.Scripts.JSBSim
     {
         bool IsLoaded { get; }
         bool Load(string aircraftName);
+        bool LoadScript(string scriptPath);
         void SetInitialConditions();
         void Tick();
         double GetProperty(string property);

@@ -12,6 +12,9 @@ public static class JSBSimNative
     public static extern bool JSB_LoadAircraft(string aircraftName);
 
     [DllImport(DllName)]
+    public static extern bool JSB_LoadScript(string scriptPath);
+
+    [DllImport(DllName)]
     public static extern bool JSB_RunStep();
 
     [DllImport(DllName)]

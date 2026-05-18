@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<runscript name="Unity C172 Takeoff">
+	<use aircraft="c172x" initialize="reset00"/>
+	<run start="0.0" end="100000" dt="0.0083333"/>
+</runscript>

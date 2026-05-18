@@ -15,4 +15,6 @@
   <altitude unit="FT">     4.305 </altitude>
   <elevation unit="FT">    0.0  </elevation>
   <hwind> 0.0 </hwind>
+
+<running> -1 </running>
 </initialize>

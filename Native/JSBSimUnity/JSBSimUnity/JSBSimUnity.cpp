@@ -75,6 +75,32 @@ bool JSB_LoadAircraft(const char* aircraftName)
 }
 
 extern "C" __declspec(dllexport)
+bool JSB_LoadScript(const char* scriptPath)
+{
+    try
+    {
+        if (g_fdm == nullptr)
+        {
+            g_lastError = "JSBSim is not initialized.";
+            return false;
+        }
+
+        if (scriptPath == nullptr)
+        {
+            g_lastError = "Script path is null.";
+            return false;
+        }
+
+        return g_fdm->LoadScript(SGPath(scriptPath));
+    }
+    catch (const std::exception& e)
+    {
+        g_lastError = e.what();
+        return false;
+    }
+}
+
+extern "C" __declspec(dllexport)
 bool JSB_RunStep()
 {
     try

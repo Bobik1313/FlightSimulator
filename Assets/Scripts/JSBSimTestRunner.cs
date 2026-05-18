@@ -28,7 +28,9 @@ public class JSBSimTestRunner : MonoBehaviour
         if (!_service.Initialize())
             return;
 
-        if (!_aircraft.Load("c172x"))
+        var scriptPath = Application.streamingAssetsPath + "/JSBSim/scripts/c172_unity.xml";
+
+        if (!_aircraft.LoadScript(scriptPath))
             return;
 
         _aircraft.SetInitialConditions();
@@ -59,7 +61,18 @@ public class JSBSimTestRunner : MonoBehaviour
 
         ApplyPosition(speedMps);
 
-        Debug.Log($"Alt: {altitudeFt}, Roll: {rollRad}, Pitch: {pitchRad}, Heading: {headingRad}");
+
+        var speedKts = _aircraft.GetProperty("velocities/vc-kts");
+        var rpm = _aircraft.GetProperty("propulsion/engine[0]/rpm");
+        var throttleCmd = _aircraft.GetProperty("fcs/throttle-cmd-norm");
+
+        Debug.Log($"Alt: {altitudeFt}, Speed: {speedKts:F1}, Throttle: {throttleCmd:F2}, RPM: {rpm:F0}");
+        var rpm0 = _aircraft.GetProperty("propulsion/engine[0]/rpm");
+        var rpm1 = _aircraft.GetProperty("propulsion/engine/rpm");
+        var rpm2 = _aircraft.GetProperty("propulsion/engine/engine-rpm");
+        var thrust = _aircraft.GetProperty("propulsion/engine[0]/thruster/thrust-lbs");
+
+        Debug.Log($"RPM0: {rpm0}, RPM1: {rpm1}, RPM2: {rpm2}, Thrust: {thrust}");
     }
 
     private void ApplyRotation(double rollRad, double pitchRad, double headingRad)
