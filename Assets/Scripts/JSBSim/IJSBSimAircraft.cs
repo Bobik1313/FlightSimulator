@@ -14,6 +14,7 @@ namespace Assets.Scripts.JSBSim
         void SetInitialConditions();
         void Tick();
         double GetProperty(string property);
+        void SetProperty(string property, double value);
         void SetControls(double pitch, double roll, double yaw, double throttle);
     }
 }

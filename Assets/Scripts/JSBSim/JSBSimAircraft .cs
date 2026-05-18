@@ -56,6 +56,11 @@ namespace Assets.Scripts.JSBSim
             return JSBSimNative.JSB_GetProperty(property);
         }
 
+        public void SetProperty(string property, double value)
+        {
+            JSBSimNative.JSB_SetProperty(property, value);
+        }
+
         public void SetControls(double pitch, double roll, double yaw, double throttle)
         {
             if (!IsLoaded)

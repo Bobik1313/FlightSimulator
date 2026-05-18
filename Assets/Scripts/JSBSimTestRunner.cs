@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.JSBSim;
+using Assets.Scripts.UI;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,7 @@ public class JSBSimTestRunner : MonoBehaviour
 {
     [SerializeField] private AircraftInput _aircraftInput;
     [SerializeField] private Transform _aircraftTransform;
+    [SerializeField] private FlightHudView _hud;
 
     private IJSBSimService _service;
     private IJSBSimAircraft _aircraft;
@@ -32,6 +34,13 @@ public class JSBSimTestRunner : MonoBehaviour
 
         if (!_aircraft.LoadScript(scriptPath))
             return;
+
+        _aircraft.SetProperty("ic/phi-deg", 0);      // roll
+        _aircraft.SetProperty("ic/theta-deg", 0);    // pitch
+        _aircraft.SetProperty("ic/psi-true-deg", 0); // yaw
+        _aircraft.SetProperty("ic/p-rad_sec", 0);    // roll rate
+        _aircraft.SetProperty("ic/q-rad_sec", 0);
+        _aircraft.SetProperty("ic/r-rad_sec", 0);
 
         _aircraft.SetInitialConditions();
     }
@@ -63,16 +72,32 @@ public class JSBSimTestRunner : MonoBehaviour
 
 
         var speedKts = _aircraft.GetProperty("velocities/vc-kts");
-        var rpm = _aircraft.GetProperty("propulsion/engine[0]/rpm");
+        var rpm = _aircraft.GetProperty("propulsion/engine/engine-rpm");
         var throttleCmd = _aircraft.GetProperty("fcs/throttle-cmd-norm");
 
-        Debug.Log($"Alt: {altitudeFt}, Speed: {speedKts:F1}, Throttle: {throttleCmd:F2}, RPM: {rpm:F0}");
-        var rpm0 = _aircraft.GetProperty("propulsion/engine[0]/rpm");
-        var rpm1 = _aircraft.GetProperty("propulsion/engine/rpm");
-        var rpm2 = _aircraft.GetProperty("propulsion/engine/engine-rpm");
-        var thrust = _aircraft.GetProperty("propulsion/engine[0]/thruster/thrust-lbs");
+        var pitchDeg = pitchRad * Mathf.Rad2Deg;
+        var rollDeg = rollRad * Mathf.Rad2Deg;
+        var headingDeg = headingRad * Mathf.Rad2Deg;
 
-        Debug.Log($"RPM0: {rpm0}, RPM1: {rpm1}, RPM2: {rpm2}, Thrust: {thrust}");
+        if (_hud != null)
+        {
+            _hud.SetData(
+                altitudeFt,
+                speedKts,
+                throttleCmd,
+                rpm,
+                pitchDeg,
+                rollDeg,
+                headingDeg);
+        }
+
+        Debug.Log(
+            $"Roll: {_aircraft.GetProperty("attitude/phi-deg")}, " +
+            $"AilCmd: {_aircraft.GetProperty("fcs/aileron-cmd-norm")}, " +
+            $"RudCmd: {_aircraft.GetProperty("fcs/rudder-cmd-norm")}, " +
+            $"AilTrim: {_aircraft.GetProperty("fcs/aileron-trim-cmd-norm")}, " +
+            $"RudTrim: {_aircraft.GetProperty("fcs/rudder-trim-cmd-norm")}"
+        );
     }
 
     private void ApplyRotation(double rollRad, double pitchRad, double headingRad)
